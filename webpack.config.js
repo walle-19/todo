@@ -8,23 +8,17 @@ const { VueLoaderPlugin } = require('vue-loader');
 
 module.exports = (env, options) => {
     const isProduction = options.mode === 'production';
-
+console.log(__dirname)
     const config = {
         mode: isProduction ? 'production' : 'development',
-		mode: 'development',
-        devtool: isProduction ? 'none' : 'source-map',
         entry: ['./src/main.js'],
         output: {
             path: path.join(__dirname, '/dist'),
             filename: 'script.js',
-			publicPath: 'auto',
         },
 		
 		devServer: {
 			hot: true,
-			// watchOptions: {
-				// poll: true
-			// }
 		},
 		
 		module: {
@@ -55,10 +49,6 @@ module.exports = (env, options) => {
                         }
                     ]
                 },
-                {
-                    test: /\.html$/,
-                    loader: 'html-loader',
-                }
             ]
         },
 		plugins: [
