@@ -8,18 +8,18 @@ const { VueLoaderPlugin } = require('vue-loader');
 
 module.exports = (env, options) => {
     const isProduction = options.mode === 'production';
-console.log(__dirname)
+
     const config = {
         mode: isProduction ? 'production' : 'development',
         entry: ['./src/main.js'],
         output: {
             path: path.join(__dirname, '/dist'),
-            filename: 'script.js',
+			publicPath: 'auto',
         },
 		
-		devServer: {
-			hot: true,
-		},
+		// devServer: {
+			// hot: true,
+		// },
 		
 		module: {
             rules: [
@@ -45,14 +45,22 @@ console.log(__dirname)
                     test: /\.(png|svg|jpe?g|gif)$/,
                     use: [
                         {
-                            loader: 'file-loader',
+							loader: 'url-loader',
+							options: {
+								limit: 4096,
+								name: 'img/[name][hash:8].[ext]',
+							},
                         }
                     ]
                 },
+				{
+                    test: /\.html$/,
+                    loader: 'html-loader',
+                }
             ]
         },
 		plugins: [
-			new webpack.HotModuleReplacementPlugin(),
+			//new webpack.HotModuleReplacementPlugin(),
 			new VueLoaderPlugin(),
             new CleanWebpackPlugin(),
             new HtmlWebpackPlugin({
